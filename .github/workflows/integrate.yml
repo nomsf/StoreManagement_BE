@@ -1,0 +1,16 @@
+name: Run check
+
+on:
+  pull_request:
+    branches: [ master ]
+    
+jobs:
+  test_pull_request:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2 # cd to this work dir
+      - uses: actions/setup-node@v1 # setup node in the machine
+        with:
+          node-version: 18
+      - run: npm ci # install dependencies
+      - run: npm run run # build the project
