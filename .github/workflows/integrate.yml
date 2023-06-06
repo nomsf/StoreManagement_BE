@@ -1,8 +1,8 @@
-name: Run check
+name: start check
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
     
 jobs:
   test_pull_request:
@@ -13,4 +13,4 @@ jobs:
         with:
           node-version: 18
       - run: npm ci # install dependencies
-      - run: npm run run # build the project
+      - run: npm run start # run the program
