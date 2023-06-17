@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Store = require('./storeModel')
 
 const breadSchema = new mongoose.Schema({
     flavor: {
@@ -13,6 +14,23 @@ const breadSchema = new mongoose.Schema({
         max: 5
     }
 },{ collection:'Bread' });
+
+breadSchema.post('deleteOne', async function(doc) {
+    
+    try {
+        const storeList = await Store.find()
+        const removedItem = (object) => object._id === doc._id;
+        storeList.items.item.filter(removedItem)
+        const savedList = storeList.save()
+
+        res.status(200).json(savedList)
+        
+    }
+    catch (e) {
+        res.status(500).json({ msg: e.message })
+    }
+    next();
+});
 
 /* TODO:
     - middleware when remove, remove all bread flavor from all store

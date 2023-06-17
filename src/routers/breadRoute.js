@@ -32,21 +32,24 @@ router.post('/', async (req,res) => {
 })
 
 // update bread info including rating
-// NOTE: request should be including all field even if its not changed
-//      (especially if its changed)
 router.patch('/:id', async (req,res) => {
     const id = req.params.id;
+    const flavor = await req.body.flavor
+    const description = await req.body.description;
+    const imageUrl = await req.body.imageUrl;
+    const rating = await req.body.rating;
+
     try{
         const bread = await Bread.findById(id)
 
-        if(req.body.rating > 5 || req.body.rating < 0){
+        if(rating > 5 || rating < 0){
             throw new Error('Rating should be lower than 5 or greater than 0')
         }
         else{
-            bread.flavor = await req.body.flavor;
-            bread.description = await req.body.description;
-            bread.imageUrl = await req.body.imageUrl;
-            bread.rating = await req.body.rating;
+            flavor? (bread.flavor = flavor) : {} ;
+            description? (bread.description) = description : {} ;
+            imageUrl? (bread.imageUrl = imageUrl) : {} ;
+            rating? (bread.rating = rating) : {} ;
 
             const updatedBread = await bread.save()
 

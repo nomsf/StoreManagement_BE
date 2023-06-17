@@ -27,6 +27,7 @@ const storeSchema = new mongoose.Schema({
 }, { collection:'Store' })
 
 storeSchema.methods.fillBread = async function () {
+
     const breadList = await Bread.find()
 
     const item = breadList.map((bread) =>({
